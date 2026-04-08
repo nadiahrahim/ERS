@@ -1,4 +1,4 @@
-const CACHE_NAME = "event-app-cache-v1";
+const CACHE_NAME = "ers-pwa-v1";
 
 const urlsToCache = [
   "./",
@@ -7,6 +7,7 @@ const urlsToCache = [
   "./icon.png"
 ];
 
+// Install
 self.addEventListener("install", event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -14,11 +15,9 @@ self.addEventListener("install", event => {
   );
 });
 
+// Fetch
 self.addEventListener("fetch", event => {
   event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        return response || fetch(event.request);
-      })
+    fetch(event.request).catch(() => caches.match(event.request))
   );
 });
